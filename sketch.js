@@ -55,6 +55,7 @@ function draw(){
         fill("white")
         text("Score  " + score, width-300, 50)
     
+        console.log(bird.body.speed)
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
@@ -82,7 +83,7 @@ function draw(){
 
 function mouseDragged(){
     //if (gameState!=="launched"){
-        Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+        Matter.Body.setPosition(bird.body,{x: mouseX , y: mouseY});
     //}
 }
 
@@ -93,12 +94,17 @@ function mouseReleased(){
 }
 
 function keyPressed(){
-    if(keyCode === 32){
+    if(keyCode === 32 && bird.body.speed < 1)
+    {
+        
+        bird.trajectory = []
+        Matter.Body.setPosition(bird.body,{x:200,y:50})
        slingshot.attach(bird.body);
     }
 }
 
-async function getBackgroundImg(){
+async function getBackgroundImg()
+{
     var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
     var responseJSON = await response.json();
 
